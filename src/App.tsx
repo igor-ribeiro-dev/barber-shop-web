@@ -7,10 +7,12 @@ import { Services } from './pages/Services';
 import { Professionals } from './pages/Professionals';
 import { Booking } from './pages/Booking';
 import { Login } from './pages/Login';
+import { Register } from './pages/Register';
 import { Appointments } from './pages/Appointments';
+import { AdminDashboard } from './pages/admin/Dashboard';
 import { PrivateRoute } from './components/PrivateRoute';
 
-export default function App() {
+export function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
@@ -19,6 +21,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/services" element={<Services />} />
             <Route path="/professionals" element={<Professionals />} />
             <Route 
@@ -34,6 +37,14 @@ export default function App() {
               element={
                 <PrivateRoute>
                   <Appointments />
+                </PrivateRoute>
+              } 
+            />
+            <Route 
+              path="/admin" 
+              element={
+                <PrivateRoute>
+                  <AdminDashboard />
                 </PrivateRoute>
               } 
             />

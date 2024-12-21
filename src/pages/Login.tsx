@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useStore } from '../store/useStore';
+import { Button } from '../components/ui/Button';
+import { AuthLayout } from '../components/auth/AuthLayout';
+import { AuthFormField } from '../components/auth/AuthForm';
 
 const loginSchema = z.object({
   email: z.string().email('E-mail inválido'),
@@ -32,60 +35,53 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Entre na sua conta
-          </h2>
+    <AuthLayout title="Entre na sua conta">
+      <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <div className="rounded-md shadow-sm space-y-4">
+          <AuthFormField
+            name="email"
+            type="email"
+            placeholder="E-mail"
+            register={register}
+            error={errors.email?.message}
+          />
+          
+          <AuthFormField
+            name="password"
+            type="password"
+            placeholder="Senha"
+            register={register}
+            error={errors.password?.message}
+          />
         </div>
-        
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="email" className="sr-only">E-mail</label>
-              <input
-                {...register('email')}
-                type="email"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
-                placeholder="E-mail"
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-              )}
-            </div>
-            
-            <div>
-              <label htmlFor="password" className="sr-only">Senha</label>
-              <input
-                {...register('password')}
-                type="password"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
-                placeholder="Senha"
-              />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
-              )}
-            </div>
+
+        {error && (
+          <div className="text-sm text-red-600 text-center">
+            {error}
           </div>
+        )}
 
-          {error && (
-            <div className="text-sm text-red-600 text-center">
-              {error}
-            </div>
-          )}
+        <div className="flex flex-col space-y-4">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full"
+          >
+            {isSubmitting ? 'Entrando...' : 'Entrar'}
+          </Button>
 
-          <div>
+          <p className="text-center text-sm text-gray-600">
+            Não tem uma conta?{' '}
             <button
-              type="submit"
-              disabled={isSubmitting}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              type="button"
+              onClick={() => navigate('/register')}
+              className="font-medium text-gray-900 hover:text-gray-700"
             >
-              {isSubmitting ? 'Entrando...' : 'Entrar'}
+              Cadastre-se
             </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          </p>
+        </div>
+      </form>
+    </AuthLayout>
   );
 }

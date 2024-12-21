@@ -8,7 +8,7 @@ import { UserMenu } from './user/UserMenu';
 export function Header() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const { isAuthenticated } = useStore();
+  const { isAuthenticated, user } = useStore();
 
   return (
     <header className="bg-gray-900 text-white sticky top-0 z-50">
@@ -30,9 +30,16 @@ export function Header() {
               Profissionais
             </Link>
             {isAuthenticated && (
-              <Link to="/appointments" className="hover:text-gray-300 transition-colors">
-                Agendamentos
-              </Link>
+              <>
+                <Link to="/appointments" className="hover:text-gray-300 transition-colors">
+                  Agendamentos
+                </Link>
+                {user?.isAdmin && (
+                  <Link to="/admin" className="hover:text-gray-300 transition-colors">
+                    Admin
+                  </Link>
+                )}
+              </>
             )}
           </nav>
 
@@ -86,16 +93,27 @@ export function Header() {
               Profissionais
             </Link>
             {isAuthenticated && (
-              <Link
-                to="/appointments"
-                className="block px-3 py-2 rounded-md hover:bg-gray-800"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Agendamentos
-              </Link>
+              <>
+                <Link
+                  to="/appointments"
+                  className="block px-3 py-2 rounded-md hover:bg-gray-800"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Agendamentos
+                </Link>
+                {user?.isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="block px-3 py-2 rounded-md hover:bg-gray-800"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Admin
+                  </Link>
+                )}
+              </>
             )}
             {isAuthenticated ? (
-              <div className="px-3 py-2 space-y-2">
+              <div className="px-3 py-2">
                 <UserMenu />
               </div>
             ) : (

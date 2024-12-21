@@ -1,0 +1,11 @@
+{
+  "name": "Barber Shop",
+  "short_name": "BarberShop",
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "theme_color": "#111827",
+  "background_color": "#111827",
+  "orientation": "portrait"
+}

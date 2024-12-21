@@ -10,6 +10,7 @@ export interface AppointmentSlice {
   isLoading: boolean;
   addAppointment: (appointment: Appointment) => Promise<void>;
   cancelAppointment: (appointmentId: string) => Promise<void>;
+  completeAppointment: (appointmentId: string) => Promise<void>;
   loadAppointments: () => Promise<void>;
   getAppointmentsByCustomer: (customerId: string) => Appointment[];
   getAppointmentsByDate: (date: Date) => Appointment[];
@@ -31,6 +32,15 @@ export const createAppointmentSlice: StateCreator<AppointmentSlice> = (set, get)
     set((state) => ({
       appointments: state.appointments.map((apt) =>
         apt.id === appointmentId ? { ...apt, status: 'cancelled' as const } : apt
+      ),
+    }));
+  },
+
+  completeAppointment: async (appointmentId) => {
+    await appointmentService.completeAppointment(appointmentId);
+    set((state) => ({
+      appointments: state.appointments.map((apt) =>
+        apt.id === appointmentId ? { ...apt, status: 'completed' as const } : apt
       ),
     }));
   },
